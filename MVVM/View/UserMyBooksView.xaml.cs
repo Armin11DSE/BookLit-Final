@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace BookLit.MVVM.View
 {
@@ -189,6 +190,9 @@ namespace BookLit.MVVM.View
             AudioBook book = books.Where(s => s.title == ((TextBlock)stackPanel.Children[1]).Text && s.writer == ((TextBlock)stackPanel.Children[3]).Text).First() as AudioBook;
             string path = Environment.CurrentDirectory[..Environment.CurrentDirectory.IndexOf("bin")];
 
+            MediaPlayer mediaPlayer = new();
+            mediaPlayer.Open(new Uri($"{path}Books/Audio/{book.audioName}"));
+            mediaPlayer.Play();
         }
     }
 }
