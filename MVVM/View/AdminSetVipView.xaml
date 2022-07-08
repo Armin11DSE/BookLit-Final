@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="BookLit.MVVM.View.AdminSetVipView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookLit.MVVM.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="750">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel>
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal">
+                <TextBlock Text="Current cost for each month: "
+                       Foreground="White"
+                       FontSize="25"
+                       Background="Transparent"/>
+
+                <TextBlock x:Name="CostText"
+                       Foreground="Yellow"
+                       FontSize="25"
+                       Background="Transparent"/>
+            </StackPanel>
+
+            <StackPanel Margin="0,30,0,0">
+
+                <TextBlock Text="Set new cost"
+                           Foreground="White"
+                           Background="Transparent"
+                           FontSize="20"/>
+
+
+                <TextBox Style="{StaticResource TextBox}"
+                         Width="300"
+                         HorizontalAlignment="Left"
+                         Margin="0,5,0,0"
+                         x:Name="VipCostBox"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Button x:Name="ChangeVipButton"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Content="Charge"
+                Grid.Row="1"
+                Height="30"
+                Width="55"
+                Margin="20"
+                Click="ChangeVip_Button_Click"
+                Style="{StaticResource NormalButton}"/>
+    </Grid>
+</UserControl>

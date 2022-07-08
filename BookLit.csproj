@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Books\Content\**" />
+    <EmbeddedResource Remove="Books\Content\**" />
+    <None Remove="Books\Content\**" />
+    <Page Remove="Books\Content\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\AdminIcon.png" />
+    <None Remove="Images\NewUserIcon.png" />
+    <None Remove="Images\SearchButton.png" />
+    <None Remove="Images\UserIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Books\Cover\" />
+    <Folder Include="Books\Audio\" />
+    <Folder Include="DataBase\SQL\" />
+    <Folder Include="Fonts\" />
+    <Folder Include="MVVM\Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\AdminIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\NewUserIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\SearchButton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UserIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,71 @@
+﻿ <Application x:Class="BookLit.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BookLit"
+             xmlns:viewModel="clr-namespace:BookLit.MVVM.ViewModel"
+             xmlns:view="clr-namespace:BookLit.MVVM.View"
+             StartupUri="/Front/StartingWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/SearchBoxTheme.xaml"/>
+                <ResourceDictionary Source="Theme/SelectableImageTheme.xaml"/>
+                <ResourceDictionary Source="Theme/TextBoxTheme.xaml"/>
+                <ResourceDictionary Source="Theme/PasswordBoxTheme.xaml"/>
+                <ResourceDictionary Source="Theme/NormalButtonTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModel:AdminBookAdditionViewModel}">
+                <view:AdminBookAditionView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:AdminBooksListViewModel}">
+                <view:AdminBooksListView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UsersListViewModel}">
+                <view:UsersListView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:AdminSetVipViewModel}">
+                <view:AdminSetVipView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:AdminWalletViewModel}">
+                <view:AdminWalletView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UserHomeViewModel}">
+                <view:UserHomeView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UserMyBooksViewModel}">
+                <view:UserMyBooksView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UserBookmarksViewModel}">
+                <view:UserBookmarksView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UserBecomeVipViewModel}">
+                <view:UserBecomeVipView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UserCartViewModel}">
+                <view:UserCartView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UserWalletViewModel}">
+                <view:UserWalletView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UserProfileViewModel}">
+                <view:UserProfileView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:UserIsVipModel}">
+                <view:UserIsVipView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
