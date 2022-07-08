@@ -48,6 +48,16 @@ namespace BookLit.Core
             this.IsVip = isVip;
             this.Discount = discount;
             this.DiscountExpirationDate = discountExpirationDate;
+
+            if (DiscountExpirationDate != null)
+            {
+                PersianCalendar persianCalender = new();
+                if (int.Parse(DiscountExpirationDate[..4]) >= persianCalender.GetYear(DateTime.Now) && int.Parse(DiscountExpirationDate[5..7]) >= persianCalender.GetMonth(DateTime.Now) && int.Parse(DiscountExpirationDate[^2..]) > persianCalender.GetDayOfMonth(DateTime.Now))
+                {
+                    this.IsVip = false;
+                    this.DiscountExpirationDate = null;
+                }
+            }
         }
 
         public void AddRating(int newRating)

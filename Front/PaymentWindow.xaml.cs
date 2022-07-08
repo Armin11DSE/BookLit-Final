@@ -83,6 +83,15 @@ namespace BookLit.Front
 
                                 UserWindow.user.VipExpirationDate = vipExpirationDate;
                             }
+                            else if (this.amount != null && !VipWannaBe)
+                            {
+                                for (int i = UserWindow.user.Cart.Count; i >= 0; i--)
+                                {
+                                    UserWindow.user.AddToBooks(UserWindow.user.Cart[i]);
+                                    UserWindow.user.RemoveFromCart(UserWindow.user.Cart[i]);
+                                    UserWindow.user.Cart.RemoveAt(i);
+                                }
+                            }
 
                             MessageBox.Show("Money transfer was successfull.");
                             this.Close();

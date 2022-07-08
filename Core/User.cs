@@ -128,5 +128,58 @@ namespace BookLit.Core
         }
 
         public bool IsPasswordCorrect(string password) => this.Password == password;
+
+        public void AddToCart(Book book)
+        {
+            Cart.Add(book);
+            SqlConnection con = new(App.dataBaseAddress);
+            con.Open();
+            string command = "Insert into Cart values('" + Email + "','" + book.title + "','" + book.writer + "')";
+            SqlCommand cmd = new(command, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public void AddToBooks(Book book)
+        {
+            Books.Add(book);
+            SqlConnection con = new(App.dataBaseAddress);
+            con.Open();
+            string command = "Insert into Purchases values('" + Email + "','" + book.title + "','" + book.writer + "')";
+            SqlCommand cmd = new(command, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public void AddToBookmarks(Book book)
+        {
+            Bookmarks.Add(book);
+            SqlConnection con = new(App.dataBaseAddress);
+            con.Open();
+            string command = "Insert into Bookmarks values('" + Email + "','" + book.title + "','" + book.writer + "')";
+            SqlCommand cmd = new(command, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public void RemoveFromCart(Book book)
+        {
+            SqlConnection con = new(App.dataBaseAddress);
+            con.Open();
+            string command = "Delete from Cart Where userEmail = '" + Email + "' and bookTitle = '" + book.title + "' and bookWriter = '" + book.writer + "'";
+            SqlCommand cmd = new(command, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public void RemoveFromBookmarks(Book book)
+        {
+            SqlConnection con = new(App.dataBaseAddress);
+            con.Open();
+            string command = "Delete from Bookmarks Where userEmail = '" + Email + "' and bookTitle = '" + book.title + "' and bookWriter = '" + book.writer + "'";
+            SqlCommand cmd = new(command, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
     }
 }

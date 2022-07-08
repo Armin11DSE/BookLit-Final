@@ -6,40 +6,63 @@
              xmlns:local="clr-namespace:BookLit.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="750">
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
             <RowDefinition/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
             <TextBlock Text="Total: "
                        Foreground="White"
-                       Background="Transparent"
-                       VerticalAlignment="Center"
-                       FontSize="20"/>
-            
-            <TextBlock Text="3000"
-                       Foreground="Yellow"
-                       Background="Transparent"
-                       VerticalAlignment="Center"
-                       FontSize="20"/>
+                       FontSize="25"
+                       Background="Transparent"/>
 
-            <Button x:Name="BuyBookButton"
+            <TextBlock x:Name="CostText"
+                       Foreground="Yellow"
+                       FontSize="25"
+                       Background="Transparent"/>
+        </StackPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto"
+                  Grid.Row="1">
+
+            <StackPanel Margin="10"
+                            Orientation="Horizontal"
+                            x:Name="CartPanel">
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2"
+                    HorizontalAlignment="Right">
+
+            <Button x:Name="PayDirectlyButton"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
-                Content="Buy"
+                Content="Pay directly"
                 Grid.Row="1"
                 Height="30"
-                Width="50"
+                Width="75"
                 Margin="20"
-                Click="BuyBook_Button_Click"
+                Click="PayDirectly_Button_Click"
                 Style="{StaticResource NormalButton}"/>
-            
+
+            <Button x:Name="PayByWalletButton"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Content="Pay by wallet"
+                Grid.Row="1"
+                Height="30"
+                Width="80"
+                Margin="20"
+                Click="PayByWallet_Button_Click"
+                Style="{StaticResource NormalButton}"/>
+
         </StackPanel>
     </Grid>
 </UserControl>

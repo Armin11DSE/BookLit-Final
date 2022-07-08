@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace BookLit.MVVM.View
 {
-    /// <summary>
-    /// Interaction logic for UserMyBooksView.xaml
-    /// </summary>
     public partial class UserMyBooksView : UserControl
     {
         public UserMyBooksView()

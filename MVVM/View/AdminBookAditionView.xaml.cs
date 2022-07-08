@@ -100,6 +100,13 @@ namespace BookLit.MVVM.View
             SqlCommand cmd = new(command, con);
             cmd.ExecuteNonQuery();
             con.Close();
+            BookTitleBox.Text = "";
+            WriterNameBox.Text = "";
+            PriceBox.Text = "";
+            FileNameBox.Text = "";
+            CoverNameBox.Text = "";
+            AudioNameBox.Text = "";
+            SummaryBox.Text = "";
             MessageBox.Show("Book was successfully added.");
         }
     }
