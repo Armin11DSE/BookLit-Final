@@ -21,6 +21,8 @@ namespace BookLit.MVVM.View
 {
     public partial class UserHomeView : UserControl
     {
+        List<Book> books = new();
+
         public UserHomeView()
         {
             InitializeComponent();
@@ -70,12 +72,21 @@ namespace BookLit.MVVM.View
 
             for (int i = 0; i <= counter && counter >= 0; i++)
             {
+                if (data.Rows[rands[i]][8].ToString() != "")
+                {
+                    books.Add(new AudioBook(data.Rows[rands[i]][1].ToString(), data.Rows[rands[i]][2].ToString(), (int)data.Rows[rands[i]][3], (double)data.Rows[rands[i]][4], data.Rows[rands[i]][5].ToString(), data.Rows[rands[i]][6].ToString(), data.Rows[rands[i]][7].ToString(), data.Rows[rands[i]][8].ToString(), (double)data.Rows[rands[i]][9], (int)data.Rows[rands[i]][10], (bool)data.Rows[rands[i]][11], (double)data.Rows[rands[i]][12], data.Rows[rands[i]][13].ToString()));
+                }
+                else
+                {
+                    books.Add(new Book(data.Rows[rands[i]][1].ToString(), data.Rows[rands[i]][2].ToString(), (int)data.Rows[rands[i]][3], (double)data.Rows[rands[i]][4], data.Rows[rands[i]][5].ToString(), data.Rows[rands[i]][6].ToString(), data.Rows[rands[i]][7].ToString(), (double)data.Rows[rands[i]][9], (int)data.Rows[rands[i]][10], (bool)data.Rows[rands[i]][11], (double)data.Rows[rands[i]][12], data.Rows[rands[i]][13].ToString()));
+                }
+
                 Border border = new();
                 border.BorderThickness = new(1);
-                border.Margin = new Thickness(0,0,5,0);
+                border.Margin = new Thickness(0, 0, 5, 0);
                 border.BorderBrush = Brushes.Yellow;
                 border.Width = 150;
-                border.Height = 200;
+                border.Height = 250;
 
                 StackPanel bookPanel = new();
 
@@ -124,6 +135,24 @@ namespace BookLit.MVVM.View
                 text.Text = "  rating: " + data.Rows[rands[i]][9].ToString() + "      by      " + data.Rows[rands[i]][10].ToString();
                 bookPanel.Children.Add(text);
 
+                text = new();
+                text.HorizontalAlignment = HorizontalAlignment.Left;
+                text.VerticalAlignment = VerticalAlignment.Top;
+                text.Background = Brushes.Transparent;
+                text.Foreground = Brushes.White;
+                text.Margin = new Thickness(0, 2, 0, 0);
+                text.Text = "Release year: " + data.Rows[rands[i]][3].ToString();
+                bookPanel.Children.Add(text);
+
+                text = new();
+                text.HorizontalAlignment = HorizontalAlignment.Left;
+                text.VerticalAlignment = VerticalAlignment.Top;
+                text.Background = Brushes.Transparent;
+                text.Foreground = Brushes.White;
+                text.Margin = new Thickness(0, 2, 0, 0);
+                text.Text = "Price: " + data.Rows[rands[i]][4].ToString() + " - " + ((double)data.Rows[rands[i]][12]).ToString();
+                bookPanel.Children.Add(text);
+
                 if ((bool)data.Rows[rands[i]][11])
                 {
                     text = new();
@@ -138,6 +167,7 @@ namespace BookLit.MVVM.View
 
                 StackPanel sp = new();
                 sp.Orientation = Orientation.Horizontal;
+                sp.Margin = new Thickness(0, 5, 0, 0);
 
                 Button sumButton = new();
                 sumButton.Click += Sum_Button_Click;
@@ -190,16 +220,48 @@ namespace BookLit.MVVM.View
 
         public void Add_Button_Click(object o, EventArgs e)
         {
+            StackPanel stackPanel = (StackPanel)((StackPanel)((Button)o).Parent).Parent;
+            Book book = books.Where(s => s.title == ((TextBlock)stackPanel.Children[1]).Text && s.writer == ((TextBlock)stackPanel.Children[3]).Text).First();
+            if (book.IsVip && !UserWindow.user.IsVip)
+            {
+                MessageBox.Show("You must have vip membership to access this book!");
+                return;
+            }
+
+            foreach (Book _book in UserWindow.user.Cart)
+            {
+                if (_book.title == book.title && _book.writer == book.writer)
+                {
+                    MessageBox.Show("You have already added this book to your cart!");
+                    return;
+                }
+            }
+
+            UserWindow.user.AddToCart(book);
+            MessageBox.Show("Book was successfully added to your cart.");
         }
 
         public void Sum_Button_Click(object o, EventArgs e)
         {
-
+            StackPanel stackPanel = (StackPanel)((StackPanel)((Button)o).Parent).Parent;
+            Book book = books.Where(s => s.title == ((TextBlock)stackPanel.Children[1]).Text && s.writer == ((TextBlock)stackPanel.Children[3]).Text).First();
+            MessageBox.Show(book.Summary);
         }
 
         public void Bookmark_Button_Click(object o, EventArgs e)
         {
-
+            StackPanel stackPanel = (StackPanel)((StackPanel)((Button)o).Parent).Parent;
+            Book book = books.Where(s => s.title == ((TextBlock)stackPanel.Children[1]).Text && s.writer == ((TextBlock)stackPanel.Children[3]).Text).First();
+            foreach (Book _book in UserWindow.user.Bookmarks)
+            {
+                if (_book.title == book.title && _book.writer == book.writer)
+                {
+                    MessageBox.Show("Book has already been bookmarked!");
+                    return;
+                }
+            }
+            UserWindow.user.AddToBookmarks(book);
+            MessageBox.Show("Book was successfully bookmarked.");
         }
     }
 }

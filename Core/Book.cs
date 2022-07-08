@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Globalization;
+using BookLit.Front;
 
 namespace BookLit.Core
 {
@@ -41,20 +42,20 @@ namespace BookLit.Core
             this.publishYear = publishYear;
             this.Price = price;
             this.Summary = summary;
-            this.fileName = @$"..\..\..\Books\File\{fileName}";
-            this.coverName = @$"..\..\..\Books\Cover\{coverName}";
+            this.fileName = fileName;
+            this.coverName = coverName;
             this.Rating = rating;
             this.RatingsNum = ratingsNum;
             this.IsVip = isVip;
             this.Discount = discount;
             this.DiscountExpirationDate = discountExpirationDate;
 
-            if (DiscountExpirationDate != null)
+            if (DiscountExpirationDate != null && DiscountExpirationDate != "")
             {
                 PersianCalendar persianCalender = new();
                 if (int.Parse(DiscountExpirationDate[..4]) >= persianCalender.GetYear(DateTime.Now) && int.Parse(DiscountExpirationDate[5..7]) >= persianCalender.GetMonth(DateTime.Now) && int.Parse(DiscountExpirationDate[^2..]) > persianCalender.GetDayOfMonth(DateTime.Now))
                 {
-                    this.IsVip = false;
+                    this.Discount = null;
                     this.DiscountExpirationDate = null;
                 }
             }
@@ -68,7 +69,19 @@ namespace BookLit.Core
             }
 
             this.Rating *= RatingsNum;
-            this.Rating = (this.RatingsNum + newRating) / (++RatingsNum);
+            this.Rating = (this.Rating + newRating) / (++RatingsNum);
+
+            SqlConnection con = new(App.dataBaseAddress);
+            con.Open();
+            string command = "Update Books SET rating = '" + this.Rating + "', ratingsNum = '" +this.RatingsNum+ "' Where title = '" + this.title + "' and writer = '" + this.writer + "'";
+            SqlCommand cmd = new(command, con);
+            cmd.ExecuteNonQuery();
+
+            command = "Insert into RatedBooks values('" + UserWindow.user.Email + "','" +this.title+ "','" +this.writer+ "','" + this.Rating + "')";
+            cmd = new(command, con);
+            cmd.ExecuteNonQuery();
+
+            con.Close();
         }
 
         public void Update(string price, string discount, string discountExpiration, bool isVip)
@@ -109,7 +122,7 @@ namespace BookLit.Core
                 throw new Exception("Invlaid audio file name!");
             }
 
-            this.audioName = @$"..\..\..\Books\Audio\{audioName}";
+            this.audioName = audioName;
         }
     }
 }

@@ -107,6 +107,7 @@ namespace BookLit.MVVM.View
             CoverNameBox.Text = "";
             AudioNameBox.Text = "";
             SummaryBox.Text = "";
+            ReleaseYearBox.Text = "";
             MessageBox.Show("Book was successfully added.");
         }
     }

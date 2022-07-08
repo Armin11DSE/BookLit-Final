@@ -64,7 +64,7 @@ namespace BookLit.Core
             this.Bookmarks = Bookmarks;
             this._IsVip = isVip;
             this._VipExpirationDate = vipExpirationDate;
-            if (VipExpirationDate != null)
+            if (VipExpirationDate != null && VipExpirationDate != "")
             {
                 PersianCalendar persianCalender = new();
                 if (int.Parse(VipExpirationDate[..4]) >= persianCalender.GetYear(DateTime.Now) && int.Parse(VipExpirationDate[5..7]) >= persianCalender.GetMonth(DateTime.Now) && int.Parse(VipExpirationDate[^2..]) > persianCalender.GetDayOfMonth(DateTime.Now))
@@ -164,6 +164,15 @@ namespace BookLit.Core
 
         public void RemoveFromCart(Book book)
         {
+            for (int i = 0; i < Cart.Count; i++)
+            {
+                if (Cart[i].title == book.title && Cart[i].writer == book.writer)
+                {
+                    Cart.RemoveAt(i);
+                    break;
+                }
+            }
+
             SqlConnection con = new(App.dataBaseAddress);
             con.Open();
             string command = "Delete from Cart Where userEmail = '" + Email + "' and bookTitle = '" + book.title + "' and bookWriter = '" + book.writer + "'";
@@ -174,6 +183,15 @@ namespace BookLit.Core
 
         public void RemoveFromBookmarks(Book book)
         {
+            for (int i = 0; i < Bookmarks.Count; i++)
+            {
+                if (Bookmarks[i].title == book.title && Bookmarks[i].writer == book.writer)
+                {
+                    Bookmarks.RemoveAt(i);
+                    break;
+                }
+            }
+
             SqlConnection con = new(App.dataBaseAddress);
             con.Open();
             string command = "Delete from Bookmarks Where userEmail = '" + Email + "' and bookTitle = '" + book.title + "' and bookWriter = '" + book.writer + "'";

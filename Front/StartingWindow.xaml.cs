@@ -81,7 +81,7 @@ namespace BookLit.Front
                 UserEmailBox_SU.Text = "";
                 return;
             }
-            
+
             if (!UserPasswordBox_SU.Password.IsPassword())
             {
                 MessageBox.Show("Invalid password!");
@@ -106,7 +106,7 @@ namespace BookLit.Front
                 return;
             }
 
-            command = "Insert into Users values('" + UserEmailBox_SU.Text.Trim() + "','" + UserFirstnameBox.Text.Trim() + "','" + UserLastnameBox.Text.Trim() + "','" + UserPhoneNumberBox.Text.Trim() + "','" + UserPasswordBox_SU.Password.Trim() + "','" + 0 + "','" + 0 + "','" + null +"')";
+            command = "Insert into Users values('" + UserEmailBox_SU.Text.Trim() + "','" + UserFirstnameBox.Text.Trim() + "','" + UserLastnameBox.Text.Trim() + "','" + UserPhoneNumberBox.Text.Trim() + "','" + UserPasswordBox_SU.Password.Trim() + "','" + 0 + "','" + 0 + "','" + null + "')";
             SqlCommand cmd = new(command, con);
             cmd.BeginExecuteNonQuery();
             new UserWindow(new User(UserEmailBox_SU.Text, UserFirstnameBox.Text, UserLastnameBox.Text, UserPhoneNumberBox.Text, UserPasswordBox_SU.Password, new List<Book>(), new List<Book>(), new List<Book>())).Show();
@@ -150,7 +150,7 @@ namespace BookLit.Front
         {
             SqlConnection con = new(App.dataBaseAddress);
             con.Open();
-            string command = "Select * From Users Where email = '" + UserEmailBox_SI.Text + "' and password = '" + UserPasswordBox_SI.Password + "'";
+            string command = "Select * From Users Where email = '" + UserEmailBox_SI.Text.Trim() + "' and password = '" + UserPasswordBox_SI.Password.Trim() + "'";
             SqlDataAdapter adapter = new(command, con);
             DataTable data = new();
             adapter.Fill(data);
@@ -182,75 +182,67 @@ namespace BookLit.Front
 
                 for (int i = 0; i < cartData.Rows.Count; i++)
                 {
-                    command = "Select * From Books Where title = '" + cartData.Rows[i][0] + "' and writer = '" + cartData.Rows[i][1] + "'";
+                    command = "Select * From Books Where title = '" + cartData.Rows[i][2].ToString() + "' and writer = '" + cartData.Rows[i][3].ToString() + "'";
                     bookAdapter = new(command, con);
                     bookData = new();
                     bookAdapter.Fill(bookData);
 
-                    for (int j = 0; j < bookData.Rows.Count; j++)
-                    {
-                        var Row = bookData.Rows[j];
+                    var Row = bookData.Rows[0];
 
-                        if (Row[8] != null)
-                        {
-                            cart.Add(new AudioBook(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), Row[8].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
-                        }
-                        else
-                        {
-                            cart.Add(new Book(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
-                        }
+                    if (Row[8].ToString() != "")
+                    {
+                        cart.Add(new AudioBook(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), Row[8].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
+                    }
+                    else
+                    {
+                        cart.Add(new Book(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
                     }
                 }
 
                 for (int i = 0; i < markData.Rows.Count; i++)
                 {
-                    command = "Select * From Books Where title = '" + markData.Rows[i][0] + "' and writer = '" + markData.Rows[i][1] + "'";
+                    command = "Select * From Books Where title = '" + markData.Rows[i][2].ToString() + "' and writer = '" + markData.Rows[i][3].ToString() + "'";
                     bookAdapter = new(command, con);
                     bookData = new();
                     bookAdapter.Fill(bookData);
 
-                    for (int j = 0; j < bookData.Rows.Count; j++)
-                    {
-                        var Row = bookData.Rows[j];
+                    var Row = bookData.Rows[0];
 
-                        if (Row[8] != null)
-                        {
-                            bookmarks.Add(new AudioBook(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), Row[8].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
-                        }
-                        else
-                        {
-                            bookmarks.Add(new Book(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
-                        }
+                    if (Row[8].ToString() != "")
+                    {
+                        bookmarks.Add(new AudioBook(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), Row[8].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
+                    }
+                    else
+                    {
+                        bookmarks.Add(new Book(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
                     }
                 }
 
                 for (int i = 0; i < purchaseData.Rows.Count; i++)
                 {
-                    command = "Select * From Books Where title = '" + purchaseData.Rows[i][0] + "' and writer = '" + purchaseData.Rows[i][1] + "'";
+                    command = "Select * From Books Where title = '" + purchaseData.Rows[i][2].ToString() + "' and writer = '" + purchaseData.Rows[i][3].ToString() + "'";
                     bookData = new();
                     bookAdapter = new(command, con);
                     bookAdapter.Fill(bookData);
 
-                    for (int j = 0; j < bookData.Rows.Count; j++)
-                    {
-                        var Row = bookData.Rows[j];
+                    var Row = bookData.Rows[0];
 
-                        if (Row[8] != null)
-                        {
-                            purchases.Add(new AudioBook(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), Row[8].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
-                        }
-                        else
-                        {
-                            purchases.Add(new Book(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
-                        }
+                    if (Row[8].ToString() != "")
+                    {
+                        purchases.Add(new AudioBook(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), Row[8].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
+                    }
+                    else
+                    {
+                        purchases.Add(new Book(Row[1].ToString(), Row[2].ToString(), (int)Row[3], (double)Row[4], Row[5].ToString(), Row[6].ToString(), Row[7].ToString(), (double)Row[9], (int)Row[10], (bool)Row[11], (double)Row[12], Row[13].ToString()));
                     }
                 }
 
-                new UserWindow(new User(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), row[4].ToString().Trim(), purchases, cart, bookmarks, (double)row[5], (bool)row[6], row[7].ToString())).Show();
+                new UserWindow(new User(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), row[4].ToString().Trim(), purchases, bookmarks, cart, (double)row[5], (bool)row[6], row[7].ToString())).Show();
                 this.Close();
             }
-            catch (Exception)
+            catch (Exception x)
             {
+                throw x;
                 MessageBox.Show("No such user exists!\nOr the entered password is wrong!");
             }
             finally

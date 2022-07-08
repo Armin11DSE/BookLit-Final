@@ -21,11 +21,21 @@ namespace BookLit.Front
         double? amount;
         bool VipWannaBe;
         uint monthNumForVip;
+        List<Book> cart = new();
 
         public PaymentWindow()
         {
             InitializeComponent();
             amount = null;
+        }
+
+        public PaymentWindow(List<Book> cart, double amount)
+        {
+            InitializeComponent();
+            this.cart = cart;
+            this.amount = amount;
+            AmountBox.Text = amount.ToString();
+            AmountBox.IsReadOnly = true;
         }
 
         public PaymentWindow(double amount, bool wantToBecomeVip = false, uint monthNumForVip = 0)
@@ -83,17 +93,17 @@ namespace BookLit.Front
 
                                 UserWindow.user.VipExpirationDate = vipExpirationDate;
                             }
-                            else if (this.amount != null && !VipWannaBe)
+                            else if (cart.Count != 0)
                             {
-                                for (int i = UserWindow.user.Cart.Count; i >= 0; i--)
+                                for (int i = 0; i < cart.Count; i++)
                                 {
-                                    UserWindow.user.AddToBooks(UserWindow.user.Cart[i]);
-                                    UserWindow.user.RemoveFromCart(UserWindow.user.Cart[i]);
-                                    UserWindow.user.Cart.RemoveAt(i);
+                                    UserWindow.user.AddToBooks(cart[i]);
+                                    UserWindow.user.RemoveFromCart(cart[i]);
                                 }
                             }
 
                             MessageBox.Show("Money transfer was successfull.");
+                            App.Income += double.Parse(AmountBox.Text);
                             this.Close();
                         }
                         else

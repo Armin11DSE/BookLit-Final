@@ -34,14 +34,14 @@ namespace BookLit.Front
             adapter.Fill(data);
 
             var row = data.Rows[0];
-            if (row[8] != null)
+            if (row[8] != null && row[8].ToString() != "")
             {
-                audioBook = new(row[1].ToString(), row[2].ToString(), (int)row[3], (double)row[4], row[5].ToString(), row[6].ToString(), row[7].ToString(), row[8].ToString(), (double)row[9], (int)row[10], (bool)row[11], (double?)row[12], (string?)row[13]);
+                audioBook = new(row[1].ToString(), row[2].ToString(), (int)row[3], (double)row[4], row[5].ToString(), row[6].ToString(), row[7].ToString(), row[8].ToString(), (double)row[9], (int)row[10], (bool)row[11], (double)row[12], row[13].ToString());
 
             }
             else
             {
-                book = new(row[1].ToString(), row[2].ToString(), (int)row[3], (double)row[4], row[5].ToString(), row[6].ToString(), row[7].ToString(), (double)row[9], (int)row[10], (bool)row[11], (double?)row[12], (string?)row[13]);
+                book = new(row[1].ToString(), row[2].ToString(), (int)row[3], (double)row[4], row[5].ToString(), row[6].ToString(), row[7].ToString(), (double)row[9], (int)row[10], (bool)row[11], (double)row[12], row[13].ToString());
             }
 
             if ((book != null && book.IsVip)
@@ -81,7 +81,7 @@ namespace BookLit.Front
                         DiscountBox.Text = "";
                         return;
                     }
-                    else if (book.DiscountExpirationDate != null)
+                    else if (book.Discount != 0 && book.Discount != null)
                     {
                         MessageBox.Show("There is already a discount on this book!");
                         DiscountBox.Text = "";
@@ -97,7 +97,7 @@ namespace BookLit.Front
                         DiscountBox.Text = "";
                         return;
                     }
-                    else if (audioBook.DiscountExpirationDate != null)
+                    else if (audioBook.Discount != null && audioBook.Discount != 0)
                     {
                         MessageBox.Show("There is already a discount on this book!");
                         DiscountBox.Text = "";
@@ -112,14 +112,15 @@ namespace BookLit.Front
                 PersianCalendar persianCalender = new();
                 try
                 {
-                    if (int.Parse(discountExpirationBox.Text[..4]) < persianCalender.GetYear(DateTime.Now) 
+                    if (int.Parse(discountExpirationBox.Text[..4]) < persianCalender.GetYear(DateTime.Now)
                         || (int.Parse(discountExpirationBox.Text[..4]) == persianCalender.GetYear(DateTime.Now) 
-                        && int.Parse(discountExpirationBox.Text[5..7]) < persianCalender.GetYear(DateTime.Now)) 
+                        && int.Parse(discountExpirationBox.Text[5..7]) < persianCalender.GetMonth(DateTime.Now)) 
                         || (int.Parse(discountExpirationBox.Text[..4]) == persianCalender.GetYear(DateTime.Now)
                         && int.Parse(discountExpirationBox.Text[5..7]) == persianCalender.GetMonth(DateTime.Now) 
                         && int.Parse(discountExpirationBox.Text[^2..]) < persianCalender.GetDayOfMonth(DateTime.Now)))
                     {
                         MessageBox.Show("Invalid expiration date!");
+                        discountExpirationBox.Text = "";
                         return;
                     }
                 }
@@ -165,11 +166,6 @@ namespace BookLit.Front
             con.Close();
             MessageBox.Show("Book was successfully deleted.");
             this.Close();
-        }
-
-        public void Vip_Button_Click(object o, EventArgs e)
-        {
-
         }
 
         public void Return_Button_Click(object o, EventArgs e) => this.Close();

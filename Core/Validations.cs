@@ -114,8 +114,7 @@ namespace BookLit.Core
                 || extension == "ogg"
                 || extension == "wma"
                 || extension == "wav"
-                || extension == "wma"
-                || extension == "alac");
+                || extension == "wma");
         }
     }
 }

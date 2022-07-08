@@ -27,6 +27,7 @@
     <Folder Include="DataBase\SQL\" />
     <Folder Include="Fonts\" />
     <Folder Include="MVVM\Model\" />
+    <Folder Include="UseCaseDiagram\" />
   </ItemGroup>
 
   <ItemGroup>

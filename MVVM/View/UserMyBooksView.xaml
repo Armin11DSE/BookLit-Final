@@ -6,7 +6,11 @@
              xmlns:local="clr-namespace:BookLit.MVVM.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="750">
-    <Grid>
-            
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+        <StackPanel Margin="10"
+                    x:Name="BooksPanel">
+
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

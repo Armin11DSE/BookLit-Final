@@ -1,0 +1,59 @@
+﻿<Window x:Class="BookLit.Front.RatingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookLit.Front"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="White"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Height="50" Width="200">
+
+    <Border CornerRadius="5">
+
+        <StackPanel Orientation="Horizontal">
+            <Button Style="{StaticResource NormalButton}"
+                Content="1"
+                Click="One"
+                Width="40"
+                    Foreground="Black">
+
+            </Button>
+
+            <Button Style="{StaticResource NormalButton}"
+                Content="2"
+                Click="Two"
+                Width="40"
+                    Foreground="Black">
+
+            </Button>
+
+            <Button Style="{StaticResource NormalButton}"
+                Content="3"
+                Click="Three"
+                Width="40"
+                    Foreground="Black">
+
+            </Button>
+
+            <Button Style="{StaticResource NormalButton}"
+                Content="4"
+                Click="Four"
+                Width="40"
+                    Foreground="Black">
+
+            </Button>
+
+            <Button Style="{StaticResource NormalButton}"
+                Content="5"
+                Click="Five"
+                Width="40"
+                    Foreground="Black">
+
+            </Button>
+        </StackPanel>
+    </Border>
+</Window>
